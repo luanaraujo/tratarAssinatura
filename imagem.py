@@ -33,7 +33,7 @@ def process_image():
                 'Alerta', 'Selecione agora o valor do limiar, geralmente fica entre 120-180, depende se o fundo da imagem está muito escuro. Se tiver muito escuro, selecione um valor baixo')
             root.title('Limiar')
             largura = 600
-            altura = 400
+            altura = 600
             # Obter a largura e altura da tela
             largura_tela = root.winfo_screenwidth()
             altura_tela = root.winfo_screenheight()
@@ -121,10 +121,16 @@ def process_image():
                 # Fecha a janela de controle deslizante
                 root.destroy()
 
+            def confirm():
+                value = threshold_value.get()
+                messagebox.showinfo('Valor do Limiar',
+                                    f'Valor do Limiar selecionado: {value}')
+                apply_filters()
+
             threshold_value.config(command=update_preview)
-            button = Button(root, text='Aplicar Filtros',
-                            command=apply_filters)
-            button.pack()
+            button_apply_filters = Button(
+                root, text='Aplicar Filtros', command=confirm)
+            button_apply_filters.pack()
 
             # Inicializar o preview com o valor inicial do seletor
             update_preview(threshold_value.get())
