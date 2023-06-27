@@ -4,11 +4,31 @@ import os
 import numpy as np
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from screeninfo import get_monitors
+from concurrent.futures import ThreadPoolExecutor
+
+root = Tk()
+
+
+def get_main_monitor():
+    # Obtém a posição do monitor principal
+    for monitor in get_monitors():
+        if monitor.is_primary:
+            return monitor
+
+    # Se não houver um monitor principal, retorna o primeiro monitor da lista
+    if len(get_monitors()) > 0:
+        return get_monitors()[0]
+
+    # Se não houver nenhum monitor, retorna None
+    return None
 
 
 def process_image():
     # Abre uma janela para selecionar o arquivo de imagem
-    root = Tk()
+
+    screen_width = root.winfo_screenwidth()
+    screen_height = root.winfo_screenheight()
 
     # Exibir um alerta para recortar a imagem antes de usar o programa
     messagebox.showinfo('Alerta', 'Recorte a imagem antes de usar o programa')
@@ -158,7 +178,7 @@ def process_image():
                 cv2.imwrite(file_path, img_new1)
 
                 # Fecha a janela de controle de valor
-                threshold_root.destroy()
+                threshold_root.quit()
 
                 # Exibe uma caixa de diálogo para confirmar o fechamento da aplicação
                 result = messagebox.askquestion(
