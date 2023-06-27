@@ -165,7 +165,6 @@ def process_image():
                     'Fechar Aplicação', 'Deseja fechar a aplicação?')
                 if result == 'yes':
                     root.quit()
-                    root.destroy()
                 else:
 
                     process_image()
