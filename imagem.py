@@ -4,8 +4,7 @@ import os
 import numpy as np
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-from screeninfo import get_monitors
-from concurrent.futures import ThreadPoolExecutor
+
 
 root = Tk()
 
@@ -138,7 +137,24 @@ def process_image():
                     if not os.path.exists(file_path):
                         break
                     count += 1
+
+                # Salva a imagem original
                 cv2.imwrite(file_path, img_new1)
+
+                # Verifica o tamanho do arquivo
+                file_size = os.path.getsize(file_path)
+                max_file_size = 1024 * 1024  # 1MB
+
+                # Redimensiona a imagem enquanto o tamanho do arquivo for maior que 1MB
+                while file_size > max_file_size:
+                    # Redimensiona a imagem pela metade
+                    img_new1 = cv2.resize(img_new1, None, fx=0.5, fy=0.5)
+
+                    # Salva a imagem com o mesmo nome, substituindo o arquivo anterior
+                    cv2.imwrite(file_path, img_new1)
+
+                    # Atualiza o tamanho do arquivo
+                    file_size = os.path.getsize(file_path)
 
                 # Fecha a janela de controle de valor
                 threshold_root.quit()
@@ -162,8 +178,10 @@ def process_image():
         else:
             messagebox.showwarning(
                 'Aviso', 'Nenhum diretório de destino selecionado.')
+            root.quit()
     else:
         messagebox.showwarning('Aviso', 'Nenhum arquivo selecionado.')
+        root.quit()
 
 
 # Chama a função para processar a imagem
