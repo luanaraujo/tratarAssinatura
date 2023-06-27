@@ -10,25 +10,8 @@ from concurrent.futures import ThreadPoolExecutor
 root = Tk()
 
 
-def get_main_monitor():
-    # Obtém a posição do monitor principal
-    for monitor in get_monitors():
-        if monitor.is_primary:
-            return monitor
-
-    # Se não houver um monitor principal, retorna o primeiro monitor da lista
-    if len(get_monitors()) > 0:
-        return get_monitors()[0]
-
-    # Se não houver nenhum monitor, retorna None
-    return None
-
-
 def process_image():
     # Abre uma janela para selecionar o arquivo de imagem
-
-    screen_width = root.winfo_screenwidth()
-    screen_height = root.winfo_screenheight()
 
     # Exibir um alerta para recortar a imagem antes de usar o programa
     messagebox.showinfo('Alerta', 'Recorte a imagem antes de usar o programa')
@@ -77,7 +60,7 @@ def process_image():
 
             # Define o valor do filtro pelo seletor ou nos botões e guarda o valor na variável, para ser usado mais tarde na finalização
             threshold_value = Scale(
-                value_frame, from_=80, to=200, orient='horizontal')
+                value_frame, from_=80, to=250, orient='horizontal')
             threshold_value.pack(side='left')
 
             # Botão de aumentar o valor
@@ -113,28 +96,8 @@ def process_image():
                 # Limiar da imagem e aplicação do filtro Gaussiano
                 ret, limiar = cv2.threshold(
                     img, int(value), 255, cv2.THRESH_BINARY)
-                blur = cv2.GaussianBlur(limiar, (5, 5), 0)
 
-                # Aplicação do filtro de mediana
-                m, n = blur.shape
-                img_new1 = np.zeros([m, n])
-                border_size = 1  # Tamanho da borda
-
-                for i in range(border_size, m - border_size):
-                    for j in range(border_size, n - border_size):
-                        temp = [blur[i - 1, j - 1],
-                                blur[i - 1, j],
-                                blur[i - 1, j + 1],
-                                blur[i, j - 1],
-                                blur[i, j],
-                                blur[i, j + 1],
-                                blur[i + 1, j - 1],
-                                blur[i + 1, j],
-                                blur[i + 1, j + 1]]
-                        temp = sorted(temp)
-                        img_new1[i, j] = temp[4]
-
-                img_new1 = img_new1.astype(np.uint8)
+                img_new1 = limiar.astype(np.uint8)
 
                 # Atualiza o preview da imagem no widget
                 ax.imshow(img_new1, cmap='gray')
