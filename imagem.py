@@ -25,35 +25,34 @@ def process_image():
         img = cv2.cvtColor(image1, cv2.COLOR_BGR2GRAY)
 
         # Abre uma janela para selecionar o diretório de destino
-
         root.title('Selecionar pasta de destino')
         root.withdraw()
         directory = filedialog.askdirectory()
 
         if directory:
             # Cria um controle deslizante para selecionar o valor do limiar
-            root = Tk()
+            threshold_root = Tk()
             messagebox.showinfo(
                 'Alerta', 'Selecione agora o valor do filtro, geralmente fica entre 100-180, depende se o fundo da imagem está muito escuro. Se tiver muito escuro, selecione um valor baixo')
-            root.title('Filtro')
+            threshold_root.title('Filtro')
             largura = 600
             altura = 600
             # Puxa a largura e altura da tela
-            largura_tela = root.winfo_screenwidth()
-            altura_tela = root.winfo_screenheight()
+            largura_tela = threshold_root.winfo_screenwidth()
+            altura_tela = threshold_root.winfo_screenheight()
 
             # Calcular as coordenadas X e Y para centralizar a janela na tela do usuário
             pos_x = int((largura_tela - largura) / 2)
             pos_y = int((altura_tela - altura) / 2)
 
             # Define a geometria da janela
-            root.geometry(f'{largura}x{altura}+{pos_x}+{pos_y}')
+            threshold_root.geometry(f'{largura}x{altura}+{pos_x}+{pos_y}')
 
             # Cria a tela de seleção do valor do filtro
-            label = Label(root, text='Selecione o valor do filtro:')
+            label = Label(threshold_root, text='Selecione o valor do filtro:')
             label.pack()
 
-            value_frame = Frame(root)
+            value_frame = Frame(threshold_root)
             value_frame.pack()
 
             # Define o valor do filtro pelo seletor ou nos botões e guarda o valor na variável, para ser usado mais tarde na finalização
@@ -86,7 +85,7 @@ def process_image():
             ax = fig.add_subplot(111)
 
             # Cria um widget de canvas para exibir a imagem
-            canvas = FigureCanvasTkAgg(fig, master=root)
+            canvas = FigureCanvasTkAgg(fig, master=threshold_root)
             canvas.get_tk_widget().pack()
 
             # Função para atualizar o preview de acordo com o valor de filtro selecionado
@@ -99,8 +98,10 @@ def process_image():
                 # Aplicação do filtro de mediana
                 m, n = blur.shape
                 img_new1 = np.zeros([m, n])
-                for i in range(1, m - 1):
-                    for j in range(1, n - 1):
+                border_size = 1  # Tamanho da borda
+
+                for i in range(border_size, m - border_size):
+                    for j in range(border_size, n - border_size):
                         temp = [blur[i - 1, j - 1],
                                 blur[i - 1, j],
                                 blur[i - 1, j + 1],
@@ -112,6 +113,7 @@ def process_image():
                                 blur[i + 1, j + 1]]
                         temp = sorted(temp)
                         img_new1[i, j] = temp[4]
+
                 img_new1 = img_new1.astype(np.uint8)
 
                 # Atualiza o preview da imagem no widget
@@ -130,24 +132,22 @@ def process_image():
                 blur = cv2.GaussianBlur(limiar, (5, 5), 0)
 
                 # Aplicação do filtro de mediana
-                m, n = blur.shape
-                img_new1 = np.zeros([m, n])
-                for i in range(1, m - 1):
-                    for j in range(1, n - 1):
-                        temp = [blur[i - 1, j - 1],
-                                blur[i - 1, j],
-                                blur[i - 1, j + 1],
-                                blur[i, j - 1],
-                                blur[i, j],
-                                blur[i, j + 1],
-                                blur[i + 1, j - 1],
-                                blur[i + 1, j],
-                                blur[i + 1, j + 1]]
-                        temp = sorted(temp)
-                        img_new1[i, j] = temp[4]
-                img_new1 = img_new1.astype(np.uint8)
+                img_new1 = cv2.medianBlur(blur, 3)
 
-                # Salva a imagem no diretório de destino e realiza um count, para não substituir a imagem, caso seja tratada mais de uma
+                # Encontra os contornos na imagem tratada
+                contours, _ = cv2.findContours(
+                    img_new1, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+
+                # Encontra o maior contorno
+                max_contour = max(contours, key=cv2.contourArea)
+
+                # Calcula o retângulo delimitador do contorno
+                x, y, w, h = cv2.boundingRect(max_contour)
+
+                # Recorta a imagem tratada usando as coordenadas do retângulo delimitador
+                img_new1 = img_new1[y:y + h, x:x + w]
+
+                # Salva a imagem no diretório de destino
                 count = 1
                 while True:
                     file_name = f'assinaturaTratada_{count}.bmp'
@@ -158,27 +158,30 @@ def process_image():
                 cv2.imwrite(file_path, img_new1)
 
                 # Fecha a janela de controle de valor
-                root.destroy()
+                threshold_root.destroy()
 
-                # Exibe o messagebox de confirmação
+                # Exibe uma caixa de diálogo para confirmar o fechamento da aplicação
                 result = messagebox.askquestion(
-                    'Fechar Aplicação', 'Deseja fechar a aplicação?')
+                    'Finalizar', 'Deseja fechar o programa?')
+
                 if result == 'yes':
                     root.quit()
                 else:
-
                     process_image()
-                    root.mainloop()
 
-            # Botão para aplicar os filtros
-            button_apply_filters = Button(
-                root, text='Confirmar', command=apply_filters)
-            button_apply_filters.pack()
+            # Botão para aplicar os filtros e finalizar a aplicação
+            apply_button = Button(
+                threshold_root, text='Aplicar', command=apply_filters)
+            apply_button.pack()
 
-            # Inicializa o preview
-            update_preview(threshold_value.get())
+            # Inicia o loop principal da aplicação
+            threshold_root.mainloop()
+        else:
+            messagebox.showwarning(
+                'Aviso', 'Nenhum diretório de destino selecionado.')
+    else:
+        messagebox.showwarning('Aviso', 'Nenhum arquivo selecionado.')
 
-            root.mainloop()
 
-
+# Chama a função para processar a imagem
 process_image()
