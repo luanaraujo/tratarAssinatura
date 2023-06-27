@@ -5,8 +5,6 @@ Projeto de um programa de tratamento de assinaturas eletrônicas, para auxiliar 
 
 <p align="center">
   <a href="#-tecnologias">Tecnologias</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
-  <a href="#-layout">Layout</a>&nbsp;&nbsp;&nbsp;
-  
 </p>
 
 <p align="center">
@@ -26,8 +24,4 @@ Esse projeto foi desenvolvido com Python e suas bibliotecas:
 - Matplotlib
 - OS
 
-## :scroll: Layout
-
-Layout foi pensado para ser o mais intuítivo possível e funcionar mesmo como uma página de "contato", para o cliente conhecer as redes sociais e mandar uma mensagem pelo whatsapp
-
-Feito com ♥ by Luan Araujo :wave:
+Luan Araujo :wave:
