@@ -7,6 +7,7 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 
 root = Tk()
+root.withdraw()
 
 
 def process_image():
