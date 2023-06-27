@@ -24,4 +24,4 @@ Esse projeto foi desenvolvido com Python e suas bibliotecas:
 - Matplotlib
 - OS
 
-Luan Araujo :wave:
+por Luan Araujo :wave:
