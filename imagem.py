@@ -1,4 +1,5 @@
 import cv2
+import tkinter as tk
 from tkinter import Tk, filedialog, Label, Button, Scale, messagebox, Frame
 import os
 import numpy as np
@@ -6,7 +7,7 @@ from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 
-root = Tk()
+root = tk.Tk()
 root.withdraw()
 
 
@@ -34,9 +35,11 @@ def process_image():
 
         if directory:
             # Cria um controle deslizante para selecionar o valor do limiar
-            threshold_root = Tk()
+            threshold_root = tk.Tk()
+            threshold_root.withdraw()
             messagebox.showinfo(
                 'Alerta', 'Selecione agora o valor do filtro, geralmente fica entre 100-180, depende se o fundo da imagem está muito escuro. Se tiver muito escuro, selecione um valor baixo')
+            threshold_root = tk.Tk()
             threshold_root.title('Filtro')
             largura = 600
             altura = 600
