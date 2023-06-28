@@ -9,6 +9,7 @@ Projeto de um programa de tratamento de assinaturas eletrônicas. Nele é possí
 
 <p align="center">
   <img alt="Programa" src="img/imagem.gif">
+  <img alt="Imagem original" src="img/teste.jpeg">
   <img alt="Filtro" src="img/filtro.gif">
 </p>
 
