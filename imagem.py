@@ -13,7 +13,7 @@ root.withdraw()
 # Define o caminho para o arquivo de ícone (.ico)
 icon_path = 'img/icone.ico'
 
-# Define o ícone da aplicação
+# Altera o ícone do programa
 root.iconbitmap(icon_path)
 
 
