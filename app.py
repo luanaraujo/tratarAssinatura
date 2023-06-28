@@ -109,12 +109,16 @@ def process_image():
             with open(temp_file_path, 'rb') as file:
                 file_content = file.read()
 
-            # Codifica o arquivo em base64
-            file_base64 = base64.b64encode(file_content).decode('utf-8')
+            # Cria um link para baixar o arquivo tratado
+            file_bytes = b""  # Substitua com os bytes do arquivo tratado
 
-            # Gera o link de download da imagem tratada
-            href = f'<a href="data:application/octet-stream;base64,{base64}" download="arquivo_tratado.bmp"><button id="download-button" class="btn-download clicked">Baixar Imagem</button>'
+            # Codifica os bytes do arquivo em base64
+            b64 = base64.b64encode(file_bytes).decode()
 
+            # Cria o link para download
+            href = f'<a href="data:application/octet-stream;base64,{b64}" download="arquivo_tratado.bmp" class="btn-download clicked">Baixar arquivo</a>'
+
+            # Exibe o botão de download
             st.markdown(href, unsafe_allow_html=True)
 
             # Remove o arquivo temporário
