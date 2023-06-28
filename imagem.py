@@ -10,6 +10,12 @@ from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 root = tk.Tk()
 root.withdraw()
 
+# Define o caminho para o arquivo de ícone (.ico)
+icon_path = 'img/icone.ico'
+
+# Define o ícone da aplicação
+root.iconbitmap(icon_path)
+
 
 def process_image():
     # Abre uma janela para selecionar o arquivo de imagem
