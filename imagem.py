@@ -1,6 +1,6 @@
 import cv2
 import tkinter as tk
-from tkinter import Tk, filedialog, Label, Button, Scale, messagebox, Frame
+from tkinter import filedialog, Label, Button, Scale, messagebox, Frame
 import os
 import numpy as np
 from matplotlib.figure import Figure
