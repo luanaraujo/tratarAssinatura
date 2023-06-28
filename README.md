@@ -10,7 +10,9 @@ Projeto de um programa de tratamento de assinaturas eletrônicas. Nele é possí
 <p align="center">
   <a href="#-tecnologias">Tecnologias</a>
 </p>
+
 ## Imagens e gifs do programa
+
 <p align="center">
   <img alt="Web" src="img/web.png">
   <img alt="Programa" src="img/imagem.gif">
