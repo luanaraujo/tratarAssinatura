@@ -49,6 +49,7 @@ def process_image():
             # Cria uma nova janela
             threshold_root = tk.Tk()
             threshold_root.title('Filtro')
+            threshold_root.iconbitmap(icon_path)
 
             largura = 600
             altura = 600
