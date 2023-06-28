@@ -19,7 +19,7 @@ def local_css(file_name):
 # Chama a função para aplicar o estilo
 local_css('style.css')
 
-# Adiciona código JavaScript para manipular o clique do botão de download
+# código JavaScript para controlar o clique do botão de download
 st.markdown(
     """
     <script>
@@ -39,7 +39,7 @@ def process_image():
     st.title('Tratador de Assinaturas')
     st.info('Recorte a imagem antes de usar o programa')
 
-    # Texto personalizado para o seletor de arquivos
+    # Texto para o seletor de arquivos
     st.subheader("Selecione o arquivo de imagem:")
 
     # Abre uma janela para selecionar o arquivo de imagem
@@ -48,6 +48,7 @@ def process_image():
 
     # Condição se o arquivo é selecionado
     if file_path is not None:
+
         # Carrega a imagem
         image1 = cv2.imdecode(np.frombuffer(
             file_path.read(), np.uint8), cv2.IMREAD_COLOR)
@@ -64,8 +65,6 @@ def process_image():
         img_new1 = limiar.astype(np.uint8)
 
         # Exibe o preview da imagem
-        # Centraliza a tela de visualização
-
         st.image(img_new1, caption='Preview', width=500)
 
         # Botão para aplicar os filtros e fazer o download da imagem tratada
