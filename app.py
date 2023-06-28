@@ -107,10 +107,7 @@ def process_image():
 
             # Faz a leitura do arquivo temporário
             with open(temp_file_path, 'rb') as file:
-                file_content = file.read()
-
-            # Cria um link para baixar o arquivo tratado
-            file_bytes = b""  # Substitua com os bytes do arquivo tratado
+                file_bytes = file.read()
 
             # Codifica os bytes do arquivo em base64
             b64 = base64.b64encode(file_bytes).decode()
