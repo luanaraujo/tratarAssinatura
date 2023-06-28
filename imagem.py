@@ -29,6 +29,7 @@ def process_image():
     # Condição se o arquivo é selecionado
     if file_path:
         # Carrega a imagem
+        file_path = os.path.normpath(file_path)
         image1 = cv2.imread(file_path)
 
         # Converte as cores da imagem para uma escala de cinza
