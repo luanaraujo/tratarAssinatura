@@ -36,7 +36,6 @@ st.markdown(
 def process_image():
     # Exibe um alerta para recortar a imagem antes de usar o programa
     st.image('img/logo.png')
-    st.title('Tratador de Assinaturas')
     st.info('Recorte a imagem antes de usar o programa')
 
     # Texto para o seletor de arquivos
