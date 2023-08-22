@@ -16,8 +16,7 @@ Projeto de um programa de tratamento de assinaturas eletrônicas. Nele é possí
 <p align="center">
   <img alt="Web" src="img/web.png">
   <img alt="Programa" src="img/assinatura.gif">
-  <img alt="Imagem original" src="img/teste.jpeg">
- 
+
 </p>
 
 <br>
