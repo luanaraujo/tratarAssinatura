@@ -5,6 +5,7 @@ import os
 import numpy as np
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from Potrace import Bitmap
 
 
 root = tk.Tk()
@@ -143,6 +144,24 @@ def process_image():
 
                 # Recorta a imagem tratada usando as coordenadas do retângulo delimitador, pra tirar a borda preta
                 img_new1 = img_new1[y:y + h, x:x + w]
+
+                # Cria um objeto Bitmap a partir da imagem recortada
+                bitmap = Bitmap(img_new1)
+
+                # Realiza a vetorização da imagem
+                path = bitmap.trace()
+
+                # Cria uma imagem em branco com o mesmo tamanho da imagem recortada
+                vector_image = np.zeros_like(img_new1)
+
+                # Percorre os segmentos do caminho
+                for curve in path:
+                    for segment in curve:
+                        # Obtém as coordenadas inicial e final do segmento
+                        x0, y0 = segment.start_point
+                        x1, y1 = segment.end_point
+                        # Desenha uma linha na imagem vetorizada
+                        cv2.line(vector_image, (x0, y0), (x1, y1), 255, 1)
 
                 # Salva a imagem, fazendo um count pra não substituir, caso trate e salve mais de uma na mesma pasta
                 count = 1
