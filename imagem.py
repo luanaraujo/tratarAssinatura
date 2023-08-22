@@ -19,14 +19,14 @@ root.iconbitmap(icon_path)
 
 
 def process_image():
-    # Abre uma janela para selecionar o arquivo de imagem
-
+    
     # Exibe um alerta para recortar a imagem antes de usar o programa
     messagebox.showinfo('Alerta', 'Recorte a imagem antes de usar o programa')
     root.title('Selecionar arquivo de imagem')
     root.withdraw()
     file_path = filedialog.askopenfilename(
         filetypes=[('Image Files', ('*.jpeg', '*.jpg', '*.png', '*.bmp'))])
+    
     # Condição se o arquivo é selecionado
     if file_path:
         # Carrega a imagem
@@ -55,6 +55,7 @@ def process_image():
 
             largura = 600
             altura = 600
+            
             # Puxa a largura e altura da tela
             largura_tela = threshold_root.winfo_screenwidth()
             altura_tela = threshold_root.winfo_screenheight()
